@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1714689134 source:c:\users\gabri\onedrive\documentos\programação c++\shutthebox\main.c
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	<time.h>
+	<locale.h>
+
