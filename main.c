@@ -25,7 +25,7 @@ void displayBoard(bool numbers[]) {
             printf("|\n");
         }
     }
-    printf("  -------------\n");
+    printf("  -------------\n\v");
 }
 
 // Função para verificar se o jogo acabou
@@ -112,7 +112,7 @@ void playGame() {
             // Verifica se o jogo terminou
         if (isGameOver(numbers, targetSum)) {
             displayBoard(numbers);
-            printf("Game over! Você não pode selecionar nenhum número para igualar a soma dos dados.\n");
+            printf("Game over! Você não pode selecionar nenhum número para igualar a soma da próxima jogada.\n");
             printf("Você perdeu!\n");
             return;
         }
@@ -136,11 +136,16 @@ void playGame() {
 
 // Função para exibir as regras do jogo
 void displayRules() {
-    printf("Bem-vindo ao Shut the Box!\n");
-    printf("O objetivo do jogo é fechar todos os números.\n");
-    printf("A cada rodada, você joga dois dados e seleciona um ou dois números que somam ao total dos dados.\n");
-    printf("Se você não puder selecionar nenhum número para igualar a soma dos dados, você perde.\n");
-    printf("Pressione qualquer tecla para retornar ao menu principal.\n");
+    printf("\x1b[33m");
+    printf("=====================================================================================================================\v\n");
+    printf("\x1b[0m");
+    printf("\t\t\t\t\tBem-vindo ao Shut the Box!\n\v");
+    printf("1 - O objetivo do jogo é fechar todos os números.\n");
+    printf("2 - A cada rodada são jogado dois dados e você deve selecionar um ou dois números que somados deem total dos dados.\n");
+    printf("3 - Se você não puder selecionar nenhum número para igualar a soma dos dados, você perde.\n\v");
+    printf("\t\t\tPressione qualquer tecla para retornar ao menu principal.\n\v");
+    printf("\x1b[33m");
+    printf("=====================================================================================================================\v\n");
     getchar(); // Limpar o buffer de entrada
     getchar(); // Aguardar entrada do usuário antes de continuar
     system("cls");
@@ -151,11 +156,17 @@ int main() {
     setlocale(LC_ALL, "Portuguese");
 
     while (true) {
-        printf("Bem-vindo ao Shut the Box!\n");
-        printf("1. Jogar o jogo\n");
-        printf("2. Ver as regras\n");
-        printf("3. Sair\n");
-        printf("Digite sua escolha: ");
+        printf("\x1b[32m");
+        printf("\t\t\t\t ====================================================\n\v");
+        printf("\x1b[34m");
+        printf("\t\t\t\t\t    Bem-vindo ao Shut the Box!\n\v");
+        printf("\x1b[36m");
+        printf("\t\t\t\t\t\t1. Jogar o jogo\n");
+        printf("\t\t\t\t\t\t2. Ver as regras\n");
+        printf("\t\t\t\t\t\t3. Sair\n\v");
+        printf("\x1b[32m");
+        printf("\t\t\t\t ====================================================\n");
+        printf("\x1b[0m");
         scanf("%d", &escolha);
         system("cls");
 
