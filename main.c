@@ -17,9 +17,9 @@ void displayBoard(bool numbers[]) {
             printf(" |-------------|\n");
         }
         if (numbers[i]) {
-            printf(" | %d ", i);
+            printf(" |\x1b[36m %d \x1b[0m", i);
         } else {
-            printf(" | X ");
+            printf(" |\x1b[31m X \x1b[0m");
         }
         if (i == 3 || i == 6 || i == 9) {
             printf("|\n");
@@ -55,64 +55,62 @@ void playGame() {
 
     // Loop principal do jogo
     while (true) {
-        displayBoard(numbers);
-        int roll1 = randRange(1, 6);
-        int roll2 = randRange(1, 6);
+        int roll1 = rand() % 6 + 1;
+        int roll2 = rand() % 6 + 1;
         int targetSum = roll1 + roll2;
-        printf("Dados rolados: %d + %d = %d\n", roll1, roll2, targetSum);
+        printf("\x1b[33mDados rolados: %d + %d = %d\x1b[0m\n", roll1, roll2, targetSum);
+
+        displayBoard(numbers);
 
         bool validInput = false;
         int input1 = -1, input2 = -1;
 
         while (!validInput) {
-            printf("Selecione o primeiro número para fechar: ");
+            printf("\x1b[32mSelecione o primeiro número para fechar: ");
             if (scanf("%d", &input1) != 1) {
-                printf("Entrada inválida. Insira um número inteiro.\n");
+                printf("\x1b[31mEntrada inválida. Insira um número inteiro.\n");
                 // Limpar o buffer de entrada
                 while (getchar() != '\n');
                 continue;
             }
             if (input1 == 0) {
-                printf("Você não pode pular a seleção do primeiro número.\n");
+                printf("\x1b[31mVocê não pode pular a seleção do primeiro número.\n");
             } else if (numbers[input1]) {
                 if (input1 == targetSum || numbers[targetSum - input1]) {
                     if (input1 == targetSum) {
                         numbers[input1] = false;
                         validInput = true;
                     } else {
-                        printf("Escolha o segundo número para fechar: ");
+                        printf("\x1b[32mEscolha o segundo número para fechar: ");
                         if (scanf("%d", &input2) != 1) {
-                            printf("Entrada inválida. Insira um número inteiro.\n");
+                            printf("\x1b[31mEntrada inválida. Insira um número inteiro.\n");
                             // Limpar o buffer de entrada
                             while (getchar() != '\n');
                             continue;
-                        }else if(input2 == 0){
-                            printf("Você não pode pular a seleção do segundo número.\n");
-                            return;
                         }
-
-                        if ((input2 == 0 && numbers[targetSum - input1]) || (input2 != 0 && (numbers[input2] && (input1 + input2 == targetSum)))) {
+                        if (input2 == 0) {
+                            printf("Você não pode pular a seleção do segundo número.\n");
+                        } else if ((numbers[targetSum - input1] && input2 == targetSum - input1) || (numbers[input2] && input1 + input2 == targetSum)) {
                             numbers[input1] = false;
-                            if (input2 != 0) numbers[input2] = false;
+                            numbers[input2] = false;
                             validInput = true;
                         } else {
-                            displayBoard(numbers);
-                            printf("Não há um segundo número disponível para fechar com a soma dos dados.\n");
-                            return;
+                            printf("\x1b[31mOs números selecionados não correspondem à soma dos dados.\n");
                         }
                     }
                 } else {
-                    printf("Não há um número disponível para fechar com a soma dos dados.\n");
-                    return;
+                    printf("\x1b[31mVocê não pode selecionar nenhum número para igualar a soma da próxima jogada.\n");
+                    return 1;
                 }
             } else {
-                printf("Número inválido. Tente novamente.\n");
+                printf("\x1b[31mNúmero inválido. Tente novamente.\n");
             }
+        }
 
-            // Verifica se o jogo terminou
+        // Verifica se o jogo terminou
         if (isGameOver(numbers, targetSum)) {
             displayBoard(numbers);
-            printf("Game over! Você não pode selecionar nenhum número para igualar a soma da próxima jogada.\n");
+            printf("\x1b[31mGame over! Você não pode selecionar mais nenhum número para igualar a soma da próxima jogada.\n");
             printf("Você perdeu!\n");
             return;
         }
@@ -129,7 +127,6 @@ void playGame() {
             displayBoard(numbers);
             printf("Parabéns! Você fechou todos os números. Você ganhou!\n");
             return;
-        }
         }
     }
 }
